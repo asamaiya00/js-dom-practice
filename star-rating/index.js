@@ -26,9 +26,13 @@ function Star(el, count, callback) {
     if (e.target.tagName === 'I') {
       const num = e.target.dataset.number;
       fillStars(num);
+    }
+  });
+  starEl.addEventListener('click', (e) => {
+    if (e.target.tagName === 'I') {
+      const num = e.target.dataset.number;
+      fillStars(num);
       callback(num);
-      //   e.target.classList.toggle('fa-star-o');
-      //   e.target.classList.toggle('fa-star');
     }
   });
 }
