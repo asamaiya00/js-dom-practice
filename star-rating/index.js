@@ -9,17 +9,26 @@ function getStar(value) {
  */
 function Star(el, count, callback) {
   // Write a logic to create star rating problem
-  let blankStarHtml = `<i class="fa fa-star-o"></i>`;
 
-  document.querySelector(el).innerHTML = blankStarHtml.repeat(count);
-  let starEl = document.getElementById('star');
+  let starEl = document.querySelector(el);
+  const fillStars = (num) => {
+    for (let i = 1; i <= count; i++) {
+      if (i <= num) starEl.children[i - 1].className = 'fa fa-star';
+      else starEl.children[i - 1].className = 'fa fa-star-o';
+    }
+  };
+  let starHtml = '';
+  for (let i = 1; i <= count; i++)
+    starHtml += `<i class="fa fa-star-o" data-number=${i} ></i>`;
+
+  starEl.innerHTML = starHtml;
   starEl.addEventListener('mouseover', (e) => {
     if (e.target.tagName === 'I') {
-      console.log('hover');
-      const num = document.querySelectorAll('i.fa ~ i.fa-star-o').length;
+      const num = e.target.dataset.number;
+      fillStars(num);
       callback(num);
-      e.target.classList.toggle('fa-star-o');
-      e.target.classList.toggle('fa-star');
+      //   e.target.classList.toggle('fa-star-o');
+      //   e.target.classList.toggle('fa-star');
     }
   });
 }
