@@ -2,3 +2,17 @@
   height: 100vh;
   width: 100vw;
 }
+
+p {
+  cursor: pointer;
+  margin: 1rem;
+  width: fit-content;
+}
+
+div:not(#comments-box) {
+  margin-left: 2rem;
+}
+
+div.hide {
+  display: none;
+}

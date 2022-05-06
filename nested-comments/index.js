@@ -6,6 +6,16 @@ const data = [
       {
         id: 2,
         text: 'reply 2',
+        replies: [
+          {
+            id: 6,
+            text: 'reply 6',
+          },
+          {
+            id: 7,
+            text: 'reply 7',
+          },
+        ],
       },
       {
         id: 3,
@@ -42,12 +52,14 @@ function appendReplies(data, element) {
     if (comment.text) {
       const text = document.createElement('p');
       text.innerText = comment.text;
-      text.style.margin = '1rem';
+      text.addEventListener('click', (e) => {
+        if (e.target.nextElementSibling.tagName === 'DIV')
+          e.target.nextElementSibling.classList.toggle('hide');
+      });
       element.appendChild(text);
     }
     if (comment?.replies?.length) {
       const div = document.createElement('div');
-      div.style.marginLeft = '2rem';
       appendReplies(comment.replies, div);
       element.appendChild(div);
     }
