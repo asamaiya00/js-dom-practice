@@ -16,3 +16,7 @@ div:not(#comments-box) {
 div.hide {
   display: none;
 }
+
+button {
+  margin-left: 1rem;
+}

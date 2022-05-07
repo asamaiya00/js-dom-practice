@@ -56,6 +56,9 @@ function appendReplies(data, element) {
         if (e.target.nextElementSibling.tagName === 'DIV')
           e.target.nextElementSibling.classList.toggle('hide');
       });
+      const btn = document.createElement('button');
+      btn.innerText = 'Add Reply';
+      text.appendChild(btn);
       element.appendChild(text);
     }
     if (comment?.replies?.length) {
