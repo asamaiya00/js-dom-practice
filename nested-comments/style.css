@@ -17,6 +17,7 @@ div.hide {
   display: none;
 }
 
+input,
 button {
   margin-left: 1rem;
 }

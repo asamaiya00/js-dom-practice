@@ -53,11 +53,32 @@ function appendReplies(data, element) {
       const text = document.createElement('p');
       text.innerText = comment.text;
       text.addEventListener('click', (e) => {
-        if (e.target.nextElementSibling.tagName === 'DIV')
+        // console.log(e.target);
+        if (
+          e.target.tagName === 'P' &&
+          e.target.nextElementSibling.tagName === 'DIV'
+        )
           e.target.nextElementSibling.classList.toggle('hide');
       });
+      const input = document.createElement('input');
+      input.type = 'text';
+      text.appendChild(input);
       const btn = document.createElement('button');
       btn.innerText = 'Add Reply';
+      btn.addEventListener('click', (e) => {
+        console.log(comment.replies);
+        if (!comment.replies) comment.replies = [];
+        comment.replies.push({
+          id: Math.floor(Math.random() * 100000),
+          text: input.value,
+          replies: [],
+        });
+        const div = document.createElement('div');
+        appendReplies(comment.replies, div);
+        element.appendChild(div);
+        console.log(comment.replies);
+        console.log(input.value);
+      });
       text.appendChild(btn);
       element.appendChild(text);
     }
