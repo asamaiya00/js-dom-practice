@@ -63,21 +63,30 @@ function appendReplies(data, element) {
       const input = document.createElement('input');
       input.type = 'text';
       text.appendChild(input);
+      const ID = Math.floor(Math.random() * 100000);
+      text.id = ID;
       const btn = document.createElement('button');
       btn.innerText = 'Add Reply';
       btn.addEventListener('click', (e) => {
         console.log(comment.replies);
-        if (!comment.replies) comment.replies = [];
+        console.log(element.innerHTML);
+        if (!comment.replies) {
+          comment.replies = [];
+          const div = document.createElement('div');
+          appendReplies(comment.replies, div);
+          element.appendChild(div);
+        }
         comment.replies.push({
-          id: Math.floor(Math.random() * 100000),
+          id: ID,
           text: input.value,
           replies: [],
         });
-        const div = document.createElement('div');
-        appendReplies(comment.replies, div);
-        element.appendChild(div);
+        const div =
+          element.querySelector('div') || document.createElement('div');
+        appendReply(comment.replies.at(-1), div);
+        // appendReplies(comment.replies, div);
         console.log(comment.replies);
-        console.log(input.value);
+        // console.log(element.querySelector('div'));
       });
       text.appendChild(btn);
       element.appendChild(text);
@@ -90,3 +99,46 @@ function appendReplies(data, element) {
   });
 }
 appendReplies(data, commentsBox);
+
+function appendReply(comment, element) {
+  console.log(element);
+  const text = document.createElement('p');
+  text.innerText = comment.text;
+  text.addEventListener('click', (e) => {
+    // console.log(e.target);
+    if (
+      e.target.tagName === 'P' &&
+      e.target.nextElementSibling.tagName === 'DIV'
+    )
+      e.target.nextElementSibling.classList.toggle('hide');
+  });
+  const input = document.createElement('input');
+  input.type = 'text';
+  text.appendChild(input);
+  const ID = Math.floor(Math.random() * 100000);
+  text.id = ID;
+  const btn = document.createElement('button');
+  btn.innerText = 'Add Reply';
+  btn.addEventListener('click', (e) => {
+    console.log(comment.replies);
+    console.log(element.innerHTML);
+    if (!comment.replies) {
+      comment.replies = [];
+      const div = document.createElement('div');
+      appendReplies(comment.replies, div);
+      element.appendChild(div);
+    }
+    comment.replies.push({
+      id: ID,
+      text: input.value,
+      replies: [],
+    });
+    const div = element.querySelector('div') || document.createElement('div');
+    appendReply(comment.replies.at(-1), div);
+    // appendReplies(comment.replies, div);
+    console.log(comment.replies);
+    // console.log(element.querySelector('div'));
+  });
+  text.appendChild(btn);
+  element.appendChild(text);
+}
