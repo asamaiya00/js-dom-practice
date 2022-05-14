@@ -26,12 +26,12 @@ const data = [
         text: 'reply 4',
         replies: [
           {
-            id: 2,
-            text: 'reply 2',
+            id: 9,
+            text: 'reply 9',
           },
           {
-            id: 3,
-            text: 'reply 3',
+            id: 10,
+            text: 'reply 10',
           },
         ],
       },
@@ -50,6 +50,8 @@ function appendReplies(data, element) {
   data.forEach((comment) => {
     console.log(comment);
     if (comment.text) {
+      const commentContainer = document.createElement('div');
+      commentContainer.id = comment.id;
       const text = document.createElement('p');
       text.innerText = comment.text;
       text.addEventListener('click', (e) => {
@@ -63,38 +65,42 @@ function appendReplies(data, element) {
       const input = document.createElement('input');
       input.type = 'text';
       text.appendChild(input);
-      const ID = Math.floor(Math.random() * 100000);
-      text.id = ID;
       const btn = document.createElement('button');
       btn.innerText = 'Add Reply';
       btn.addEventListener('click', (e) => {
-        console.log(comment.replies);
         console.log(element.innerHTML);
         if (!comment.replies) {
           comment.replies = [];
           const div = document.createElement('div');
-          appendReplies(comment.replies, div);
-          element.appendChild(div);
+          div.id = 'replies-' + comment.id;
+          console.log(document.getElementById(comment.id));
+          document.getElementById(comment.id).after(div);
+          // element.parentNode.getElementById(comment.id);
         }
+        console.log(comment.replies);
         comment.replies.push({
-          id: ID,
+          id: comment.id,
           text: input.value,
           replies: [],
         });
-        const div =
-          element.querySelector('div') || document.createElement('div');
+        console.log(element, comment.id);
+        const div = document.getElementById(comment.id);
+        console.log('div', div);
         appendReply(comment.replies.at(-1), div);
+        element.appendChild(div);
         // appendReplies(comment.replies, div);
         console.log(comment.replies);
         // console.log(element.querySelector('div'));
       });
       text.appendChild(btn);
-      element.appendChild(text);
-    }
-    if (comment?.replies?.length) {
-      const div = document.createElement('div');
-      appendReplies(comment.replies, div);
-      element.appendChild(div);
+      commentContainer.appendChild(text);
+      if (comment?.replies?.length) {
+        const div = document.createElement('div');
+        div.id = 'replies-' + comment.id;
+        appendReplies(comment.replies, div);
+        commentContainer.appendChild(div);
+      }
+      element.appendChild(commentContainer);
     }
   });
 }
@@ -133,7 +139,7 @@ function appendReply(comment, element) {
       text: input.value,
       replies: [],
     });
-    const div = element.querySelector('div') || document.createElement('div');
+    const div = element.getElementById(comment.id);
     appendReply(comment.replies.at(-1), div);
     // appendReplies(comment.replies, div);
     console.log(comment.replies);
